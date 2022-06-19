@@ -4,10 +4,30 @@ const hostname = '127.0.0.1'
 const port = 4000
 
 const server = http.createServer((req, res) => {
-    res.statusCode = 200
-    res.setHeader('Content-Type', 'text/plain')
-    res.end('Backend running\n')
+
+  const { headers, method, url } = req;
+  let body = [];
+  req.on('error', (err) => {
+    console.error(err);
+  }).on('data', (chunk) => {
+    body.push(chunk);
+  }).on('end', () => {
+    body = Buffer.concat(body).toString();
+
+    res.on('error', (err) => {
+      console.error(err);
+    });
   })
+
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  const responseBody = 'Response from Backend';
+  // const responseBody = {headers, method, url, body};
+
+  // res.write(JSON.stringify(responseBody));
+  res.write(responseBody);
+  res.end();
+  });
 
   server.listen(port, hostname, () => {
     console.log(`Server running at http://${hostname}:${port}/`)
