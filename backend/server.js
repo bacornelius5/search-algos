@@ -5,6 +5,7 @@ const port = 4000
 
 const server = http.createServer((req, res) => {
 
+  console.log(req.url);
   const { headers, method, url } = req;
   let body = [];
   req.on('error', (err) => {
@@ -21,11 +22,10 @@ const server = http.createServer((req, res) => {
 
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
-  const responseBody = 'Response from Backend';
+  const responseBody = { message : "Response from Backend" };
   // const responseBody = {headers, method, url, body};
 
-  // res.write(JSON.stringify(responseBody));
-  res.write(responseBody);
+  res.write(JSON.stringify(responseBody));
   res.end();
   });
 
