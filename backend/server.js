@@ -23,9 +23,16 @@ const server = http.createServer((req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
   const responseBody = { message : "Response from Backend" };
+  const responseBodyAlt = {message : "Alternate response from Backend"};
   // const responseBody = {headers, method, url, body};
 
-  res.write(JSON.stringify(responseBody));
+  if (req.url == "/api") {
+    res.write(JSON.stringify(responseBody));
+  } else if (req.url == "/alt") {
+
+    res.write(JSON.stringify(responseBodyAlt));
+  }
+  
   res.end();
   });
 
